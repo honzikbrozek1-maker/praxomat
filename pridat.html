@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praxomat - Přidat hodnocení</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Horní navigační lišta -->
+  <header class="navbar">
+    <div class="logo">
+      <a href="index.html" class="logo-odkaz">PRAXO<span class="logo-accent">MAT</span></a>
+    </div>
+    <a href="index.html" class="tlacitko-zpet">&larr; Zpět na přehled</a> <!--&larr = šipka doleva, HTML entita pro speciální znaky-->
+  </header>
+
+  <!-- Hlavní obsah s formulářem -->
+  <main class="content">
+    <div class="form-karta">
+      <h1>Přidat novou recenzi praxe</h1>
+      <p class="form-podnadpis">Přihoď svou zkušenost s firmou a pomoz tak další studentům s výběrem.</p>
+
+      <div id="potvrzeni-blok" style="display: none; text-align: center;">
+        <div id="potvrzeni-zprava" class="zprava-uspech"></div>
+        <a href="index.html" class="button-primary" style="margin-top: 10px;">Přejít na přehled recenzí</a>
+      </div>
+      
+      <form id="formular-recenze">
+        <!-- Honeypot (medová past na boty) -->
+        <input type="text" id="honeypot" name="website" style="display: none;" tabindex="-1" autocomplete="off">
+
+        <div class="form-skupina">
+          <label for="firma-select">Název firmy *</label>
+          <select id="firma-select" name="firma-select" required><!--<input type="text" id="firma" name="firma" required placeholder="např. Škoda Auto, Aimtec, ČEPS...">-->
+            <option value="">-- Vyberte firmu ze seznamu --</option>
+            <option value="Škoda Auto a.s.">Škoda Auto a.s.</option>
+            <option value="Aimtec a.s.">Aimtec a.s.</option>
+            <option value="ČEPS a.s.">ČEPS a.s.</option>
+            <option value="Doosan Škoda Power">Doosan Škoda Power</option>
+            <option value="nova_firma">+ Přidat novou firmu...</option>
+          </select>
+          
+        </div>
+        <!-- Textové pole pro zadání nové firmy (skryté pomocí display:none)-->
+        <div class="form-skupina" id="blok-nova-firma" style="display: none;">
+          <label for="firma-nova">Přesný název nové firmy *</label>
+          <input type="text" id="firma-nova" name="firma-nova" placeholder="Napiště název nové fimy...">
+        </div>
+
+        <div class="form-radek">
+          <div class="form-skupina">
+            <label for="obor">Obor praxe *</label>
+            <select id="obor" name="obor" required>
+              <option value="it">IT / Vývoj softwaru</option>
+              <option value="elektro">Elektrotechnika</option>
+              <option value="strojirenstvi">Strojírenství</option>
+              <option value="ekonomie">Ekonomie a administrativa</option>
+            </select>
+          </div>
+
+          <div class="form-skupina">
+            <label for="mesto-select">Město působení *</label>
+            <select id="mesto-select" name="mesto-select" required>
+              <option value="Plzeň">Plzeň</option>
+              <option value="Praha">Praha</option>
+              <option value="Brno">Brno</option>
+              <option value="Ostrava">Ostrava</option>
+              <option value="Přeštice">Přeštice</option>
+              <option value="Klatovy">Klatovy</option>
+              <option value="jine">Jiné město</option>
+            </select>
+            <!-- Textové pole pro jiné město - původně skryté-->
+             <div class="form-skupina" id="blok-jine-mesto" style="display:none">
+              <label for="mesto-jine">Název jiného města *</label>
+              <input type="text" id="mesto-jine" name="mesto-jine" placeholder="Napište název města...">
+             </div>
+            <!--<input type="text" id="mesto" name="mesto" required placeholder="např. Plzeň">-->
+          </div>
+        </div>
+
+        <div class="form-radek">
+          <div class="form-skupina">
+            <label for="hodnoceni">Celkové hodnocení *</label>
+            <select id="hodnoceni" name="hodnoceni" required>
+              <option value="5">★★★★★ </option>
+              <option value="4">★★★★☆ </option>
+              <option value="3">★★★☆☆ </option>
+              <option value="2">★★☆☆☆ </option>
+              <option value="1">★☆☆☆☆ </option>
+            </select>
+          </div>
+
+          <div class="form-skupina">
+            <label for="odmena">Finanční odměna *</label>
+            <select id="odmena" name="odmena" required>
+              <option value="Ano">Ano</option>
+              <option value="Ne">Ne</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-skupina">
+          <label for="text-recenze">Popis praxe a zkušenost (volitelné)</label>
+          <textarea id="text-recenze" name="text-recenze" rows="5" placeholder="Zde můžete popsat přístup mentora, reálnou náplň práce, prostředí firmy..."></textarea>
+        </div>
+
+        <button type="submit" class="button-primary tlacitko-velke">Odeslat hodnocení</button>
+      </form>
+    </div>
+  </main>
+<script src="form.js"></script>
+</body>
+</html>

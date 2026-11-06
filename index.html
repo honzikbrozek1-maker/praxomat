@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Praxomat - Portál odborných praxí</title>
+     <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- 1. HORNÍ LIŠTA (NAVIGACE / HLAVIČKA) -->
+     <header class="navbar">
+          <div class="logo"> 
+               <a href="index.html" class="logo-odkaz">PRAXO<span class="logo-accent">MAT</span></a> <!-- Obal pro logo: název je rozdělený, abychom v CSS obarvili každou část jinak -->
+          </div>
+          <a href="pridat.html" class="button-primary">+ Přidat hodnocení</a>
+     </header>
+
+<!-- 2. HLAVNÍ OBSAH WEBU-->
+<main class="content"> <!--odsazení od okrajů-->
+     <section class="hero"> <!--úvodní uvítací sekce-->
+          <h1>Najdi si ověřenou praxi</h1>
+          <p>Hodnocení a reálné zkušenosti studentů z odborných praxí na jednom místě.</p>
+          <div class="vyhledavac-box">
+               <input type="text" id="search-input" placeholder="Hledat firmu nebo obor...">
+
+               <select id="obory">
+                    <option value="all">Všechny obory</option>
+                    <option value="it">IT / Vývoj softwaru</option>
+                    <option value="elektro">Elektrotechnika</option>
+                    <option value="strojirenstvi">Strojírenství</option>
+                    <option value="ekonomie">Ekonomie a administrativa</option>
+               </select> <!--Rozbalovací seznam, Value je hodnota, kterou potřebuje JavaScript-->
+
+               <select id="mesto-filtr"> <!-- rozbalovací seznam pro filtro podle měst-->
+                    <option value="all">Všechna města</option>
+                    <option value="Plzen">Plzeň</option>
+                    <option value="Praha">Praha</option>
+                    <option value="Brno">Brno</option>
+                    <option value="Ostrava">Ostrava</option>
+                    <option value="Přeštice">Přeštice</option>
+                    <option value="Klatovy">Klatovy</option>
+               </select>
+          </div>
+     </section>
+
+     <section class="sekce-recenze">
+          <h2>Poslední hodnocené praxe</h2>
+          <div id="recenze-grid" class="recenze-grid">
+               <!--Sem se automaticky budou vkládat jednotlivé recenze-->
+          </div>
+     </section>
+
+</main>
+<div id="detail-modal" class="modal">
+     <div class="modal-obsah">
+          <span class="modal-zavrit" id="modal-zavrit">&times;</span>
+          <div id="modal-detail-obsah">
+               <!-- Sem JavaScript dynamicky vloží název firmy, průměr a seznam všech recenzí -->
+          </div>
+     </div>
+</div>
+
+<script src="data.js"></script> <!--Soubor s testovacími daty-->
+<script src="app.js"></script>  <!--Hlavní soubor s logikou (vyhledávání, filtrování, vykreslování)-->
+</body>
+</html>

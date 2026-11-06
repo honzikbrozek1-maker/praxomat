@@ -1,0 +1,493 @@
+/* :root dělá definice vlastních proměnných pro barvy - na začátku si nastavím všechny barvy */
+
+:root 
+{
+  --barva-pozadi: #f4f7fb;       /* velmi jemná modro-šedá na pozadí stránky */
+  --barva-bila: white;           /* čistě bílá pro karty a lištu */
+  --hlavni-modra: #004aad;       /* sytá royal blue */
+  --tmava-modra: #002b66;        /* tmavý odstín na text a hover stavy */
+  --akcent-oranzova: orange;     /* přirozená energická oranžová na tlačítka a detaily */
+  --oranzova-hover: #e06900;     /* o chlup tmavší oranžová při najetí myší */
+  --text-hlavni: #1a202c;        /* tmavá barva pro dobře čitelný text */
+  --text-tlumeny: gray;          /* neutrální šedá barva na podnadpisy a doplňující info */
+  --ramecek: #e2e8f0;            /* decentní linka kolem boxů */
+
+
+}
+
+/* hvězdička * vybere každý prvek na stránce
+box-sizing: border-box zajistí, že padding (vnitřní okraj) 
+nebude prvek nechtěně nafukovat do šířky. */
+
+*
+{
+  margin: 0;
+  padding: 0;                   /* vnitřní okraj/výplň */
+  box-sizing: border-box;       /* velikost se počítá včetně rámečku a paddingu */
+}
+
+body 
+{
+  font-family: Arial, sans-serif;
+  background-color: var(--barva-pozadi);
+  color: var(--text-hlavni);
+  line-height: 1.5; 
+}
+
+.navbar
+{
+  background-color: var(--barva-bila);
+  border-bottom: 2px solid var(--ramecek);
+  padding: 16px 32px; 
+  /* vnitřní prostor: 16px nahoře/dole, 32px po stranách */
+  /* Flexbox seřadí logo a tlačítko vedle sebe na jeden řádek */
+  display: flex;
+  justify-content: space-between; /* logo vlevo, tlačítko úplně vpravo */
+  align-items: center;
+}
+
+.logo
+{
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--hlavni-modra);
+  letter-spacing: 0.5px;          /* drobné rozestupy mezi písmeny */
+}
+
+/* Třída pro první část názvu loga, kterou chceme mít oranžově */
+.logo-accent 
+{
+  color: var(--akcent-oranzova);
+}
+
+/* Hlavní akční tlačítko "+ Přidat hodnocení" */
+.button-primary 
+{
+  background-color: var(--akcent-oranzova);
+  color: var(--barva-bila);
+  border: none;
+  border-radius: 8px;            /* zaoblené rohy */
+  padding: 10px 18px;            /* velikost klikací plochy */
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;               /* po najetí myší se kurzor změní na ručičku */
+  transition: background-color 0.2s ease; /* plynulá změna barvy při hoveru */
+}
+
+/* Co se stane, když uživatel na tlačítko najede kurzorem */
+.button-primary:hover 
+{
+  background-color: var(--oranzova-hover);
+}
+
+/* ============================================================
+   3. HLAVNÍ OBSAH WEBU A HERO SEKCE
+   ============================================================ */
+
+/* Obalovač celého obsahu pod lištou */
+.content 
+{
+  max-width: 1000px;             /* maximální šířka, aby web nebyl na širokém monitoru roztažený */
+  margin: 0 auto;                /* automatické centrování bloku na střed obrazovky */
+  padding: 40px 20px;            /* rozestupy zevnitř - odsazení od okrajů obrazovky */
+}
+
+/* Úvodní uvítací blok */
+.hero 
+{
+  text-align: center;            /* veškerý text i prvky v hero sekci zarovná na střed */
+  margin-bottom: 18px;           /* odsazení od spodních recenzí */
+}
+
+.hero h1 
+{
+  font-size: 36px;
+  color: var(--tmava-modra);
+  margin-bottom: 8px;
+}
+
+.hero p 
+{
+  font-size: 18px;
+  color: var(--text-tlumeny);
+  margin-bottom: 24px;
+}
+
+/* Box, který drží vyhledávací pole a roletku oborů vedle sebe */
+.vyhledavac-box 
+{
+  display: flex;
+  justify-content: center;
+  gap: 12px;                     /* mezera 12px mezi políčkem a roletkou */
+  max-width: 600px;
+  margin: 0 auto;                /* vycentrování na střed */
+  flex-wrap: wrap; /* na menších displejích se prvky přirozeně zalomí*/
+}
+
+/* sloučené vlastnosti pro všechny 3 buňky (pokus o zredukování kódu */
+#search-input,
+#obory,
+#mesto-filtr
+{
+  padding: 12px 16px;
+  border: 1px solid var(--ramecek);
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: var(--barva-bila);
+  outline: none;                 /* odstraní výchozí modrý obrys prohlížeče */ 
+  font-family: inherit;
+}
+
+/* Zvýraznění rámečku při kliknutí do pole */
+#search-input:focus
+{
+  border-color: var(--hlavni-modra);
+}
+
+#search-input
+{
+  flex:2; /* textové pole zabere více místa*/
+  min-width: 200px
+}
+
+#obory
+#mesto-filtr
+{
+  flex:1; /*rooletky mají šířku tak akorát*/
+  cursor:pointer;
+}
+
+#obory:focus 
+{
+  border-color: var(--hlavni-modra);
+}
+
+/* ============================================================
+   4. SEKCE RECENZÍ A MŘÍŽKA KARET (GRID)
+   ============================================================ */
+
+.sekce-recenze h2 
+{
+  font-size: 24px;
+  color: var(--tmava-modra);
+  margin-bottom: 24px;
+  border-left: 4px solid var(--akcent-oranzova); /* ozdobný oranžový proužek vlevo */
+  padding-left: 10px;
+}
+
+/* Mřížka, do které budeme přes JavaScript vkládat karty firem */
+.recenze-grid 
+{
+  display: grid;
+  /* Automaticky skládá sloupce: každá karta má minimální šířku 280px.
+     Na mobilu je 1 sloupec, na monitoru 2 až 3 vedle sebe. */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;                     /* mezera 20px mezi kartami */
+}
+
+/* ============================================================
+   5. VZHLED JEDNOTLIVÉ KARTY RECENZE
+   ============================================================ */
+.karta-recenze 
+{
+  background-color: var(--barva-bila);
+  border: 1px solid var(--ramecek);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04); /* lehký prostorový stín */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Po najetí myší se karta nepatrně nadzvedne */
+.karta-recenze:hover 
+{
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+}
+
+.karta-hlavicka 
+{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.karta-firma 
+{
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--tmava-modra);
+}
+
+.karta-mesto 
+{
+  font-size: 13px;
+  color: var(--text-tlumeny);
+}
+
+/* Odznáček s hodnocením (oranžový boxík) */
+.karta-hvezdy 
+{
+  background-color: #fff7ed;
+  color: var(--akcent-oranzova);
+  border: 1px solid #fed7aa;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Štítek oboru */
+.karta-obor 
+{
+  display: inline-block;
+  background-color: #eff6ff;
+  color: var(--hlavni-modra);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+  width: fit-content;
+}
+
+.karta-text 
+{
+  font-size: 14px;
+  color: var(--text-hlavni);
+  margin-bottom: 16px;
+  flex-grow: 1;                 /* vyplní prostor, aby byly karty stejně vysoké */
+}
+
+.karta-paticka 
+{
+  border-top: 1px solid #f1f5f9;
+  padding-top: 10px;
+  font-size: 12px;
+  color: var(--text-tlumeny);
+}
+
+/* ============================================================
+   6. ODKAZY A FORMULÁŘOVÁ STRÁNKA (pridat.html)
+   ============================================================ */
+
+/* Aby odkaz s třídou button-primary nevypadal jako podtržený modrý text */
+a.button-primary 
+{
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* Odkaz v logu, aby se dalo kliknutím vrátit domů */
+.logo-odkaz 
+{
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Šedé tlačítko Zpět v navigaci */
+.tlacitko-zpet 
+{
+  text-decoration: none;
+  color: var(--text-tlumeny);
+  font-size: 15px;
+  font-weight: bold;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--ramecek);
+  transition: all 0.2s ease;
+}
+
+.tlacitko-zpet:hover 
+{
+  background-color: var(--ramecek);
+  color: var(--text-hlavni);
+}
+
+/* Karta formuláře uprostřed stránky */
+.form-karta 
+{
+  background-color: var(--barva-bila);
+  border: 1px solid var(--ramecek);
+  border-radius: 12px;
+  padding: 36px;
+  max-width: 650px;
+  margin: 0 auto;                /* vycentrování na střed */
+}
+
+.form-karta h1 
+{
+  font-size: 26px;
+  color: var(--tmava-modra);
+  margin-bottom: 6px;
+}
+
+.form-podnadpis 
+{
+  color: var(--text-tlumeny);
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+/* Jednotlivá políčka */
+.form-skupina 
+{
+  margin-bottom: 18px;
+}
+
+.form-skupina label 
+{
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--text-hlavni);
+  margin-bottom: 6px;
+}
+
+.form-skupina input,
+.form-skupina select,
+.form-skupina textarea 
+{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--ramecek);
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: white;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-skupina input:focus,
+.form-skupina select:focus,
+.form-skupina textarea:focus {
+  border-color: var(--hlavni-modra);
+}
+
+/* Dvě pole vedle sebe na větších obrazovkách */
+.form-radek 
+{
+  display: flex;
+  gap: 16px;
+}
+
+.form-radek .form-skupina 
+{
+  flex: 1;
+}
+
+/* Tlačítko pro odeslání přes celou šířku formuláře */
+.tlacitko-velke 
+{
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Zelená notifikace o úspěšném odeslání */
+.zprava-uspech 
+{
+  background-color: #ecfdf5;
+  border: 1px solid #10b981;
+  color: #065f46;
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* ============================================================
+PRO MOBILNÍ ZAŘÍZENÍ (Šířka displeje do 768px)
+============================================================*/
+@media (max-width: 768px) /* Obal pro vyhledávač a roletky ( např. třídu .filtr-kontajner nebo .form-radek) */
+{
+  .filtr-sekce,
+  .vyhledavac-box 
+  { display: flex; flex-direction: column; /* Naskládá prvky pod sebe místo vedle sebe */
+    gap: 12px; /* Mezera mezi jednotlivými políčky */
+    width: 100%; /* Roztáhne blok na celou šířku displeje */
+  } 
+  
+  /* Úprava samotných vstupních polí a roletkových nabídek pro dotyk prstem */ 
+  .filtr-sekce input,
+  .filtr-sekce select, 
+  #search-input, #obory,
+  #mesto-filtr 
+  { 
+    width: 100%; /* Políčko zabere 100 % šířky mobilního displeje */ 
+    font-size: 16px; /* Velikost písma 16px zabrání iOS/Androidu v nechtěném přibližování stránky při kliknutí */ 
+    padding: 12px 15px; /* Větší vnitřní odsazení, aby se na políčko dobře trefovalo prstem */ 
+    box-sizing: border-box; /* Zajistí, že padding nezvětší celkovou šířku prvku přes okraj */ 
+  } 
+}
+
+/* ============================================================
+MODÁLNÍ OKNO (DETAIL FIRMY A RECENZÍ) 
+============================================================*/
+.modal 
+{ 
+  display: none; /* V základu je okno skryté */ 
+  position: fixed; 
+  z-index: 1000; /* určuje pořadí překrývání (hloubku, vrstvení) na ose Z - okno bude nad ostatním obrazem*/
+  left: 0; 
+  top: 0; 
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0, 0, 0, 0.6); /* Ztmavnutí pozadí za okrem */ 
+  align-items: center; 
+  justify-content: center; 
+} 
+
+.modal-obsah 
+{ 
+  background-color: white; 
+  padding: 25px; 
+  border-radius: 12px; 
+  width: 90%; 
+  max-width: 600px; 
+  max-height: 85vh; /* Pokud je recenzí hodně, nepřeteče obrazovku */ 
+  overflow-y: auto; /* Přidá svislý posuvník pro dlouhý seznam recenzí */ 
+  position: relative; 
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); 
+}
+
+.modal-zavrit 
+{ 
+  position: absolute; 
+  top: 15px; 
+  right: 20px; 
+  font-size: 28px; 
+  font-weight: bold; 
+  color: gray; 
+  cursor: pointer;
+  line-height: 1; 
+} 
+
+.modal-zavrit:hover 
+{ 
+  color: black; 
+}
+
+/* Styly pro jednotlivé recenze v modalu */ 
+.modal-recenze-polozka 
+{ 
+  border-bottom: 1px solid var(--ramecek); 
+  padding: 15px 0; 
+} 
+
+.modal-recenze-polozka:last-child 
+{ 
+  border-bottom: none; 
+}
+
+.modal-recenze-polozka p
+{
+  margin: 6px 0; /* 1.hodnota dělá odsazení nahoře a dole a druhá dělá vpravo a vlevo*/
+}
