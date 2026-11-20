@@ -104,7 +104,7 @@ function otevriDetailFirmy(nazevFirmy)
      const recenzeFirmy = vsechnyRecenze.filter(function(r) // filter projde úplně všechny recenze v poli
      {
           return r.firma.toLowerCase().trim() === nazevFirmy.toLowerCase().trim(); //porovnání názvu firmy v každé recenzi s tím, na který se kliklo
-     })
+     });
 
      if (recenzeFirmy.length === 0) return;//když žádná recenze náhodou neexistuje, tak to ukončí kód, aby v následujících řádcích nespadl
 
@@ -121,31 +121,54 @@ function otevriDetailFirmy(nazevFirmy)
           {
                seznamOboruFirmy.push(nazevOboru);
           }
-     })
+     });
      //sestavení záhlaví toho modálního okna
      let html = `
-     <h2>${recenzeFirmy[0].firma}</h2> 
-     <p class="karta-mesto">📍 ${recenzeFirmy[0].mesto} | <strong> Obory: </strong> ${seznamOboruFirmy.join(", ")} </p> 
-     <p><strong>Průměrné hodnocení: ★ ${prumer} / 5</strong> (${recenzeFirmy.length}x recenze)</p>
-     <hr> 
-     <h3>Všechny recenze od studentů:</h3> 
+     <div class="modal-header-info">
+          <h2>${recenzeFirmy[0].firma}</h2> 
+          <div class="modal-subheading">
+               <span class="modal-mesto">📍 ${recenzeFirmy[0].mesto}</span>
+               <span class="modal-hvezky"> ★ ${prumer} / 5</span>
+               <span class="modal-pocet">(${recenzeFirmy.lenght}x recenze)</span>
+          </div>
+          <p class="modal-obory"><strong>Obory:</strong> ${seznamOboruFirmy.join(", ")}</p>
+     </div>
+     <div class="modal-recenze-obal">
+          <h3>Všechny recenze od studentů:</h3>
      `; //hr - vodorovná dělící čára, 
 
      // Vypsání každé recenze zvlášť (i se slovním popisem a odměnou)
      recenzeFirmy.forEach(function (r, index) //projít všechny recenze dané firmy one by one; "r" =konkrétní recenze a "index" =její číslo(0,1,2...)
           { 
           const textRecenze = r.text ? `"${r.text}"` : '<em>Hodnocení bez textového popisu</em>'; //kontrola, zda je napsaný text, když ne, tak kurzíva
-          const odmenaText = r.financniOdmena || r.odmena || 'Neuvedeno'; // kontrola odměny
           const oborStudenta = r.oborNazev || r.obor || "Obor neuveden" //konkrétní obor této jedné recenze
+
+          //Zjistit stav odměny a vytvoření barevného štítku
+          const hodnotaOdmeny = r.financniOdmena || r.odmena;
+          const jePlacena = hodnotaOdmeny && hodnotaOdmeny.toLowerCase() !== "ne" && hodnotaOdmeny.toLowerCase() !== "neuvedeno";
+
+          const odmenaBadge = jePlacena
+               ? `<span class="badge-odmena placena">💰 ${hodnotaOdmeny}</span>` //pokud je odměna, tak zelený štítek
+               : `<span class="badge-odmena neplacena">❌ Bez odměny </span>`; //pokud není odměna, tak červený štítek
+
+          // Zlaté hvězdičky (např. 4 plné + 1 prázdná)
+          const hvezdicky = "★".repeat(r.hodnoceni) + "☆".repeat(5 - r.hodnoceni); //repeat() opakuje znak tolikrát, kolik je hodnocení, a doplní prázdné hvězdičky do 5
           // přilepení (+=) k existujícímu HTML další kartičky recenze
           html += ` 
-          <div class="modal-recenze-polozka"> 
-               <p><strong>Recenze #${index + 1}:</strong> ★ ${r.hodnoceni} / 5</p> 
-               <p class="karta-text">${textRecenze}</p> 
-               <small>Odměna: <strong>${odmenaText}</strong></small> 
-          </div> 
+          <div class="modal-recenze-karta"> 
+               <div class="modal-recenze-top">
+                    <span class="modal-recenze-cislo">#${index + 1}</span>
+                    <span class="modal-recenze-hvezdy">${hvezdicky}</span>
+                    <span class="badge-obor">${oborStudenta}</span>
+                    ${odmenaBadge}
+               </div>
+               <p class="modal-recenze-text">${textRecenze}</p>
+          </div>
           `;
-          }); 
+     });
+          
+     html += `</div>`; // uzavření divu modal-recenze-obal
+          
      modalObsah.innerHTML = html; //vložení výsledného sestavení textu a zobrazení
      modal.style.display = "flex"; 
 }
@@ -211,11 +234,9 @@ function filtrujData()
 
 
      const vysledek = firmySeznam.filter(function (polozka) //vyfiltrování  seznamu firem podle všech 3 kritérií najednou
-     {
-          const oboryText = polozka.oboryNazvy ? polozka.oboryNazvy.join(" ").toLowerCase() :""; //Bezpečné prohledání textu i v poli oborů; otazník je jako if a dvojtečka je else
-          
-          const oboryRezetec = polozka.oboryNazvy ? polozka.oboryNazvy.join (" ").toLowerCase() : ""; // prohledání textu v poli oborů, podmínka, že pokud oboryNazvy neexistuje, nastaví se prázdný řetězec
-          const odpovidaText = polozka.firma.toLowerCase().includes(hledanyText) || oboryRezetec.includes(hledanyText); //Podmínka 1: Odpovídá název firmy nebo obor hledanému textu?
+     {        
+          const oboryRetezec = polozka.oboryNazvy ? polozka.oboryNazvy.join (" ").toLowerCase() : ""; // prohledání textu v poli oborů, podmínka, že pokud oboryNazvy neexistuje, nastaví se prázdný řetězec
+          const odpovidaText = polozka.firma.toLowerCase().includes(hledanyText) || oboryRetezec.includes(hledanyText); //Podmínka 1: Odpovídá název firmy nebo obor hledanému textu?
           const odpovidaObor = (vybranyObor === "all") || polozka.obory.includes(vybranyObor); //Podmínka 2: Je vybrán "all", nebo se shoduje obor? altGr+w | - možnost více oborů pro jednu firmu
           const odpovidaMesto = (vybraneMesto === "all") || (polozka.mesto === vybraneMesto); //Podmínka 3: Je vybrán "all", nebo se shoduje město? 
           return odpovidaText && odpovidaObor && odpovidaMesto; //Vrátí true jen pokud obě podmínky platí

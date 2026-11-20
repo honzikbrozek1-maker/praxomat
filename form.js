@@ -10,6 +10,10 @@ const firmaNovaInput = document.getElementById("firma-nova");
 const mestoSelect = document.getElementById("mesto-select");
 const blokJineMesto = document.getElementById("blok-jine-mesto");
 const mestoJineInput = document.getElementById("mesto-jine");
+//Načtení obládacích prvků pro odměnu
+const odmenaSelect = document.getElementById("odmena");
+const blokCastka = document.getElementById("blok-castka");
+const castkaInput = document.getElementById("castka");
 
 
 // Reakce na výběr v roletce firem
@@ -45,6 +49,19 @@ mestoSelect.addEventListener("change", function ()
   }
 })
 
+//reakce na výběr v roletce odměny
+odmenaSelect.addEventListener("change", function ()
+{
+  if (odmenaSelect.value === "Ano")
+  {
+    blokCastka.style.display = "block"; //Zobrazení pole pro zadání částky
+  }
+  else
+  {
+    blokCastka.style.display = "none";
+    castkaInput.value = ""; //vyčistění pole při výběru "Ne"
+  }
+})
 
 
 formular.addEventListener("submit", function (udalost) 
@@ -69,6 +86,15 @@ formular.addEventListener("submit", function (udalost)
   {
     nazevMesta = mestoJineInput.value.trim(); // Zase trim() odstraňující mezery 
   }
+
+  // Určení textu odměny
+  let vyslednaOdmena = "Ne";
+  if (odmenaSelect.value === "Ano")
+  {
+    const zadanaCastka = castkaInput.value.trim();
+    vyslednaOdmena = zadanaCastka ? zadanaCastka : "Ano"; //Pokud uživatel zadal částku, uloží se tato částka, jinak se uloží jen "Ano"
+  }
+
   //Vytvoření objektu recenze z formuláře
   const oborSelect = document.getElementById("obor");
   const novaRecenze = 
@@ -79,7 +105,7 @@ formular.addEventListener("submit", function (udalost)
     oborNazev: oborSelect.options[oborSelect.selectedIndex].text, //Získá text vybrané možnosti z roletky
     mesto: nazevMesta,
     hodnoceni: parseInt(document.getElementById("hodnoceni").value), //Převede hodnotu z formuláře na celé číslo
-    financniOdmena: document.getElementById("odmena").value, 
+    financniOdmena: vyslednaOdmena, //uloží buď "Ano" nebo "Ne" podle výběru uživatele (nebo rovnou např. "150 Kč/hod")
     text: document.getElementById("text-recenze").value.trim() //Odstraní mezery na začátku a konci textu,
   }; //Díky tomu se stránka neobnoví/neproblikne, ale JavaScript převezme řízení – v klidu načte hodnoty z políček, uloží je do `localStorage`, schová formulář a zobrazí zelené potvrzení.
 
